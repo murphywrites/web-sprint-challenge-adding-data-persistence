@@ -8,7 +8,7 @@
         table.increments("project_id")
         table.string('project_name', 200).notNullable().unique()
         table.string('project_description', 400)
-        table.boolean('project_completed')
+        table.integer('project_completed').defaultTo(0)
     })
     .createTable('resources', table => {
         table.increments('resource_id')
@@ -19,7 +19,7 @@
         table.increments('task_id')
         table.string('task_description', 400)
         table.string('task_notes', 500)
-        table.boolean('task_completed')
+        table.integer('task_completed').defaultTo(0)
         table.integer('project_id')
         .unsigned()
         .notNullable()

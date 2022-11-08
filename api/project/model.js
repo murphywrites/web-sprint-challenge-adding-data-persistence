@@ -17,4 +17,14 @@ async function findById(project_id) {
     return projectObj
 }
 
-module.exports = {findById, insert}
+async function getAll() {
+    let projectArray = await db('projects')
+
+    projectArray.forEach(projectObj => {
+        projectObj.project_completed === 0 ? projectObj.project_completed = false : projectObj.project_completed = true
+    })
+
+    return projectArray
+}
+
+module.exports = {findById, insert, getAll}

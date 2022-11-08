@@ -3,13 +3,27 @@
 const router = require('express').Router()
 const Task = require('./model')
 
+router.get('/', (req, res, next) => {
+    Task.getAll().then(tasks => {
+        res.status(200).json(tasks)
+    })
+    .catch(next)
+})
+
 router.get('/:task_id', (req, res, next) => {
-    res.status(200).json({message:"howdy Task"}).catch(next)
-    // Task.findById(req.params.task_id)
-    // .then(Task => {
-    //     res.status(200).json(task)
-    // })
-    // .catch(next)
+    Task.findById(req.params.task_id)
+    .then(task => {
+        res.status(200).json(task)
+    })
+    .catch(next)
+})
+
+router.post('/', (req, res, next) => {
+    Task.insert(req.body)
+    .then(task => {
+        res.status(200).json(task)
+    })
+    .catch(next)
 })
 
 

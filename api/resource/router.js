@@ -2,13 +2,28 @@
 const router = require('express').Router()
 const Resource = require('./model')
 
+router.get('/', (req, res, next) => {
+    Resource.getAll().then(resources => {
+        res.status(200).json(resources)
+    })
+    .catch(next)
+})
+
 router.get('/:resource_id', (req, res, next) => {
-    res.status(200).json({message:"howdy resource"}).catch(next)
-    // Resource.findById(req.params.Resource_id)
-    // .then(Resource => {
-    //     res.status(200).json(Resource)
-    // })
-    // .catch(next)
+    // res.status(200).json({message:"howdy resource"}).catch(next)
+    Resource.findById(req.params.resource_id)
+    .then(resource => {
+        res.status(200).json(resource)
+    })
+    .catch(next)
+})
+
+router.post('/', (req, res, next) => {
+    Resource.insert(req.body)
+    .then(resource => {
+        res.status(200).json(resource)
+    })
+    .catch(next)
 })
 
 
