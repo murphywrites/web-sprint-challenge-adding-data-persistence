@@ -3,6 +3,10 @@
 const router = require('express').Router()
 const Task = require('./model')
 
+const checkTaskDescription = (req, res, next) => {
+    req.body.task_description ? next() : res.status(400).json({message:"task description required"})
+}
+
 router.get('/', (req, res, next) => {
     Task.getAll().then(tasks => {
         res.status(200).json(tasks)
@@ -18,7 +22,7 @@ router.get('/:task_id', (req, res, next) => {
     .catch(next)
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', checkTaskDescription ,(req, res, next) => {
     Task.insert(req.body)
     .then(task => {
         res.status(200).json(task)
